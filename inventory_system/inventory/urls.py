@@ -7,12 +7,12 @@ urlpatterns = [
 
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from views import ProductViewSet, ProductRequestViewSet
+from .views import ProductViewSet, ProductRequestViewSet
 
 router = DefaultRouter()
 router.register(r'products', ProductViewSet)
 router.register(r'requests', ProductRequestViewSet)
 
-urlpartterns = [
+urlpatterns = [
     path('api/', include(router.urls)),
 ]
