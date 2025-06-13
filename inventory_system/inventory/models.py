@@ -25,7 +25,7 @@ class Productrequest(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity_requested = models.PositiveIntegerField()
-    status = models.CharField(max_lenght=10, choices=STATUS_CHOICES, default='pending')
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
     date_submitted = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
