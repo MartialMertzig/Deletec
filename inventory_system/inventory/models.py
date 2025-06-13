@@ -1,6 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
-# Create your models here.
+#Modèle des produits
 
 class Product(models.Model):
     name = models.CharField(max_length=100) #Nom du produit
@@ -10,10 +12,8 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name 
-    
-from django.db import models
-from django.contrib.auth.models import User
-from .models import Product
+
+# Modèle de demande des produits
 
 class Productrequest(models.Model):
     STATUS_CHOICES = [
@@ -29,4 +29,13 @@ class Productrequest(models.Model):
     date_submitted = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.product.name} ({self.status})"
+        return f"{self.user.username} - {self.product.name} ({self.status}) ({self.date_submitted.strftime('%Y-%m-%d')})"
+
+    def clean(self):
+        if self.quantity_requested > self.product.quantity:
+            raise ValidationError("Quantité demandée supérieure au stock disponible.")
+
+    def approve_request(self):
+        if self.status == 'approved' and self.product.quantity >= self.quantity_requested:
+            self.product.quantity -= self.quantity_requested
+            self.product.save()
