@@ -21,3 +21,12 @@ class Productrequest(models.Model):
         ('approved', 'Approuvée'),
         ('rejected', 'Refusée'),
     ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity_requested = models.PositiveIntgerField()
+    status = models.CharField(max_lenght=10, choices=STATUS_CHOICES, default='pending')
+    date_submitted = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.product.name} ({self.status})"
