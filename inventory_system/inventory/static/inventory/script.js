@@ -1,7 +1,7 @@
 const productSelect = document.getElementById('product-select');
 const productList = document.getElementById('product-list');
 const requestList = document.getElementById('request-list');
-const from = document.getElementById('request-form');
+const form = document.getElementById('request-form');
 const message = document.getElementById('message');
 
         // Permet d'afficher tout les produits
@@ -23,7 +23,7 @@ const message = document.getElementById('message');
             })
         
         // Soumettre une demande
-        form.addEventListener('sbmit', (e) => {
+        form.addEventListener('submit', (e) => {
             e.preventDefault();
             const productId = productSelect.value;
             const quantity = document.getElementById('quantity').value;
