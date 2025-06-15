@@ -7,19 +7,23 @@
         <title>Gestion d'inventaire</title>
     </head>
 <body>
-    <h1>Bienvenue dans le système de gestion d'inventaire</h1>
+    <h1>Bonjour et bienvenue dans le système de gestion d'inventaire :</h1>
 
     <!-- Liste des produits -->
      <section>
-        <h2>Articles disponibles</h2>
-            <ul id="product-list"></ul>
+        <h2>Nos articles disponibles.</h2>
+            <ul id="product-list">
+                 {% for product in products %}
+                   <li>{{ product.name }} — {{ product.description }} — {{ product.quantity }} en stock ({{ product.price }} €)</li>
+                 {% endfor %}
+            </ul>
      </section>
 
      <!-- Soumettre une demande -->
       <section>
-        <h2>Soumettre une demande</h2>
+        <h2>Je souhaite soumettre une demande.</h2>
         <form id="request-form">
-            <label fort="product">Produit :</label>
+            <label fort="product">Article :</label>
             <select for="product-select" required></select><br><br>
             <label for="quantity">Quantité :</label>
             <input type="number" id="quantity" min="1" required><br><br>
@@ -30,7 +34,7 @@
 
       <!-- Suivre les demandes -->
        <section>
-        <h2>Mes demandes</h2>
+        <h2>Suivre mes demandes.</h2>
         <ul id="request-list"></ul>
        </section>
       <!-- Chemin vers le script.js statique-->

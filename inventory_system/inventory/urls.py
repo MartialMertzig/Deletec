@@ -10,5 +10,5 @@ router.register(r'requests', ProductRequestViewSet, basename='requests')
 urlpatterns = [
     path('', views.index, name='index'), # Accueil
     path('api/', include(router.urls)), #API
-    path('inventaire/', views.liste_produit, name='liste_produit'),
+    path('inventaire/', views.product_list, name='liste_produit'),
 ]

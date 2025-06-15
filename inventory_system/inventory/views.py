@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from rest_framework import viewsets, permissions # Permet de définir les permissions
-from.models import Product, Productrequest
+from .models import Product, Productrequest
 from .serializers import ProductSerializer, ProductRequestSerializer
 from django.shortcuts import render
 
@@ -19,6 +19,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 #Vue des API demandes de produits
 
 class ProductRequestViewSet(viewsets.ModelViewSet):
+    queryset = Productrequest.objects.all()
     serializer_class = ProductRequestSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -33,5 +34,6 @@ def perform_create(self, serializer):
 
 #Vue de la page liste produit
 
-def liste_produit(request):
-    return render(request, 'liste_produit.html')
+def product_list(request):
+    products = Product.objects.all()
+    return render(request, 'liste_produit.html', {'products': products})
