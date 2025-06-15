@@ -1,4 +1,4 @@
-const productSelect = document.getElementById('product-select');
+const productSelect = document.getElementById('product');
 const productList = document.getElementById('product-list');
 const requestList = document.getElementById('request-list');
 const form = document.getElementById('request-form');
@@ -10,28 +10,42 @@ const message = document.getElementById('message');
             .then(data => {
                 data.forEach(product => {
                     // La liste
-                    const li = doucment.createElment('li');
-                    li.textContent = '${product.name} - ${product.quantity} en stock - ${product.price} €';
+                    const li = document.createElement('li');
+                    li.textContent = `${product.name} - ${product.quantity} en stock - ${product.price} €`;
                     productList.appendChild(li);
 
                     // Select
-                    const option = docuement.createElement('option');
+                    const option = document.createElement('option');
                     option.value = product.id;
                     option.textContent = product.name;
                     productSelect.appendChild(option);
                 })
             })
         
+        // Remplit la liste  des produits
+        fetch('/api/products/')
+            .then(response => response.json())
+            .then(data => {
+                const select = document.getElementById('product');
+                data.forEach(product => {
+                    const option = document.createElement('option');
+                    option.value = product.id;
+                    option.textContent = `${product.name} (${product.quantity} en stock)`;
+                    select.appendChild(option);
+                });
+            });
+
         // Soumettre une demande
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             const productId = productSelect.value;
             const quantity = document.getElementById('quantity').value;
+
             fetch('/api/requests/', {
                 method: 'POST',
                 headers: {
-                    'Content-Type' : 'application/json',
-                    'X-CSRFToken' : getCSRFToken(),
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken'),  // ou getCSRFToken() selon ta fonction
                 },
                 body: JSON.stringify({
                     product: productId,
@@ -42,10 +56,9 @@ const message = document.getElementById('message');
                 if (res.ok) {
                     message.textContent = "Demande envoyée avec succès";
                     fetchUserRequests();
-                    form.rest();
-                }
-                else {
-                    message.textContent = "Erreur lor de l'envoi";
+                    form.reset();
+                } else {
+                    message.textContent = "Erreur lors de l'envoi";
                 }
             });
         });
@@ -53,13 +66,14 @@ const message = document.getElementById('message');
         // Affiche les demandes
         function fetchUserRequests() {
             fetch('/api/requests/')
-                .then(res => res.json())
+                .then(response => response.json())
                 .then(data => {
-                    requestList.innerHTML ='';
-                    data.forEach(req => {
-                        const li = document. createElement('li');
-                        li.textContent = '${req.product} - ${req.quantity_requested} demandés - statut : ${req.status}';
-                        requestList.appendChild(li);
+                    const list = document.getElementById('user-requests-list');
+                    list.innerHTML = '';
+                    data.forEach(request => {
+                        const item = document.createElement('li');
+                        item.textContent = `Produit ID ${request.product} — Quantité: ${request.quantity_requested} — Statut: ${request.status}`;
+                        list.appendChild(item);
                     });
                 });
         }
@@ -71,7 +85,7 @@ const message = document.getElementById('message');
             let cookieValue = null;
             const name = 'csrftoken';
             if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookies.split(';');
+                const cookies = document.cookie.split(';');
                 for (let i = 0; i < cookies.length; i++) {
                     const cookie = cookies[i].trim();
                     if (cookie.substring(0, name.length + 1) === (name + '=')) {
