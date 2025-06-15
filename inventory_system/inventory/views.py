@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from rest_framework import viewsets, permissions # Permet de définir les permissions
 from.models import Product, Productrequest
 from .serializers import ProductSerializer, ProductRequestSerializer
+from django.shortcuts import render
 
 #Vue de la page d'accueil
 
@@ -29,3 +30,8 @@ def get_queryset(self):
 
 def perform_create(self, serializer):
     serializer.save(user=self.request.user)
+
+#Vue de la page liste produit
+
+def liste_produit(request):
+    return render(request, 'liste_produit.html')
