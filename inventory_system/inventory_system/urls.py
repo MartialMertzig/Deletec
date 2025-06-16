@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.shortcuts import redirect
 
 urlpatterns = [
     path('admin/', admin.site.urls), #admin django
+    path('', lambda request: redirect('login')), # redirige la racine vers le Login
     path('', include("inventory.urls")),
 ]
