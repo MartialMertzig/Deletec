@@ -1,8 +1,9 @@
 from django.http import HttpResponse
 from rest_framework import viewsets, permissions # Permet de définir les permissions
-from .models import Product, Productrequest
+from .models import Product, ProductRequest
 from .serializers import ProductSerializer, ProductRequestSerializer
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required # Restreint l'inventaire aux utilisateurs connectés
 
 #Vue de la page d'accueil
 
@@ -19,18 +20,18 @@ class ProductViewSet(viewsets.ModelViewSet):
 #Vue des API demandes de produits
 
 class ProductRequestViewSet(viewsets.ModelViewSet):
-    queryset = Productrequest.objects.all()
+    queryset = ProductRequest.objects.all()
     serializer_class = ProductRequestSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated] # 
 
-def get_queryset(self):
-    user = self.request.user
-    if user.is_staff:
-        return Productrequest.objects.all()
-    return Productrequest.objects.filter(user=user)
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_staff:
+            return ProductRequest.objects.all()
+        return ProductRequest.objects.filter(user=user)
 
-def perform_create(self, serializer):
-    serializer.save(user=self.request.user)
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 #Vue de la page liste produit
 

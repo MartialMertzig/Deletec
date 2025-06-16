@@ -1,4 +1,18 @@
 {% load static %} <!-- Chargement du script.js-->
+
+{% if user.is_authenticated %}
+  <p>Bonjour {{ user.username }} — 
+    <form action="{% url 'logout' %}" method="post">
+      {% csrf_token %}
+      <button type="submit" style="background:none; border:none; color:blue; text-decoration:underline; cursor:pointer;">
+        Se déconnecter
+      </button>
+    </form>
+  </p>
+{% else %}
+  <p><a href="{% url 'login' %}">Connexion</a></p>
+{% endif %}
+
 <!DOCTYPE html>
 <html lang="fr">
     <head>

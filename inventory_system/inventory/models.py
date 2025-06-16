@@ -15,14 +15,14 @@ class Product(models.Model):
 
 # Modèle de demande des produits
 
-class Productrequest(models.Model):
+class ProductRequest(models.Model):
     STATUS_CHOICES = [
         ('pending', 'En attente'),
         ('approved', 'Approuvée'),
         ('rejected', 'Refusée'),
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity_requested = models.PositiveIntegerField()
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
