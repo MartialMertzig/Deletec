@@ -1,28 +1,25 @@
 from django.http import HttpResponse
-from rest_framework import viewsets, permissions # Permet de définir les permissions
+from rest_framework import viewsets, permissions
 from .models import Product, ProductRequest
 from .serializers import ProductSerializer, ProductRequestSerializer
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required # Restreint l'inventaire aux utilisateurs connectés
+from django.contrib.auth.decorators import login_required
 
-#Vue de la page d'accueil
-
+# Vue de la page d'accueil
 def index(request):
     return HttpResponse("Bienvenue dans le système de gestion d'inventaire !")
 
-#Vue des API produits
-
+# Vue des API produits
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [permissions.AllowAny] # Permet de restreindre l'accès aux utilisateurs connectés
+    permission_classes = [permissions.IsAuthenticated]
 
-#Vue des API demandes de produits
-
+# Vue des API demandes de produits
 class ProductRequestViewSet(viewsets.ModelViewSet):
     queryset = ProductRequest.objects.all()
     serializer_class = ProductRequestSerializer
-    permission_classes = [permissions.IsAuthenticated] # 
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         user = self.request.user
@@ -33,8 +30,7 @@ class ProductRequestViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-#Permet de récupérer les informations de chaque utilisateur sur sa session
-
+# Vue de la liste de produits pour l'utilisateur connecté
 @login_required
 def product_list(request):
     products = Product.objects.all()
@@ -54,7 +50,7 @@ def product_list(request):
                         product=produit,
                         quantity_requested=quantite
                     )
-                    return redirect('product-list')  # Redirige vers la même page
+                    return redirect('product-list')
             except Product.DoesNotExist:
                 print("Produit inexistant")
             except Exception as e:

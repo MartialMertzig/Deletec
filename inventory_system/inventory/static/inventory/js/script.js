@@ -93,8 +93,8 @@ form.addEventListener('submit', (e) => {
                     'X-CSRFToken': getCSRFToken(),
                 },
                 body: JSON.stringify({
-                    product: productId,
-                    quantity_requested: quantity,
+                    product_id: parseInt(productId),
+                    quantity_requested: parseInt(quantity),
                 })
             }));
         }
@@ -116,14 +116,23 @@ form.addEventListener('submit', (e) => {
 
 // Affiche les demandes existantes
 function fetchUserRequests() {
-    fetch('/api/requests/')
+    fetch('/api/requests/', {
+        credentials: 'include'
+    })
         .then(res => res.json())
         .then(data => {
             const list = document.getElementById('requests-list');
+            if (!list) {
+                console.error('#requests-list introuvable dans le DOM');
+                return;
+            }
+
             list.innerHTML = '';
             data.forEach(req => {
                 const li = document.createElement('li');
-                li.textContent = `${req.product.name} — Quantité: ${req.quantity_requested} — Statut: ${req.status_display || req.status}`;
+                const product = req.product; // ← ici le fix important
+                const productName = product ? product.name : 'Produit inconnu';
+                li.textContent = `${productName} — Quantité: ${req.quantity_requested} — Statut: ${req.status_display || req.status}`;
                 list.appendChild(li);
             });
         });

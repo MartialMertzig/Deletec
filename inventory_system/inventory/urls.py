@@ -2,6 +2,8 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from django.contrib.auth import views as auth_views
 from .import views
+from django.conf import settings
+from django.conf.urls.static import static
 from .views import ProductViewSet, ProductRequestViewSet
 
 router = DefaultRouter()
@@ -19,3 +21,6 @@ urlpatterns = [
     #Produits
     path('inventaire/', views.product_list, name='liste_produit'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
