@@ -21,7 +21,7 @@
         <title>Gestion d'inventaire</title>
     </head>
 <body>
-    <h1>Bonjour et bienvenue dans le système de gestion d'inventaire :</h1>
+    <h1>Bienvenue dans le système de gestion d'inventaire :</h1>
 
     <!-- Liste des produits -->
      <section>
@@ -29,23 +29,39 @@
             <ul id="product-list"> </ul>
      </section>
 
-     <!-- Soumettre une demande -->
+     <!-- Soumettre une demande, une ligne par demande  -->
+
       <section>
         <h2>Je souhaite soumettre une demande.</h2>
-        <form id="request-form">
-            <label for="product">Article :</label>
-            <select id="product" required></select><br><br>
-            <label for="quantity">Quantité :</label>
-            <input type="number" id="quantity" min="1" required><br><br>
+        <form method="post" id="request-form">
+            {% csrf_token %}
+
+            <div id="request-lines">
+                <!-- Les lignes seront ajoutées dynamiquement ici -->
+            </div>
+
+            <button type="button" id="add-line">Ajouter un article</button>
+            <br><br>
             <button type="submit">Envoyer la demande</button>
         </form>
-        <p id="request-message"></p>
+
+        <p id="message"></p>
       </section>
 
       <!-- Suivre les demandes -->
        <section>
-        <h2>Suivre mes demandes.</h2>
-        <ul id="request-list"></ul>
+        <h2>Mes demandes</h2>
+        <ul>
+          {% for demande in demandes %}
+            <li>
+              {{ demande.product.name }} – Quantité : {{ demande.quantity_requested }} –
+              Statut : <strong>{{ demande.status }}</strong> –
+              Envoyée le {{ demande.date_submitted|date:"d/m/Y H:i" }}
+            </li>
+          {% empty %}
+            <li>Vous n'avez fait aucune demande.</li>
+          {% endfor %}
+        </ul>
        </section>
       <!-- Chemin vers le script.js statique-->
       <script src="{% static 'inventory/script.js' %}"></script>

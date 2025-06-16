@@ -7,8 +7,6 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ProductRequestSerializer(serializers.ModelSerializer):
-    product = ProductSerializer()
-
     class Meta:
         model = ProductRequest
         fields = ['id', 'user', 'product', 'quantity_requested', 'status', 'date_submitted']
