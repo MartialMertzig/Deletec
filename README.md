@@ -1,12 +1,12 @@
 Système de gestion d'inventaire :
 
-Une application Django de gestion d'inventaire avec interface utilisateur en HTML, css et Javascript  permettant aux utilisateurs de consulter les produits et faire des demandes.
+Une application Django de gestion d'inventaire avec interface utilisateur en HTML, CSS et JavaScript  permettant aux utilisateurs de consulter les produits et faire des demandes.
 
 Stack technique :
 
 Backend : Django, Django REST Framework
 Frontend : HTML + JavaScript Vanilla
-Base de données : SQLite (par défaut mais  modifiable)
+Base de données : SQLite (par défaut, mais modifiable)
 Authentification : Auth Django (pour le login/logout)
 API : RESTful via `ModelViewSet`
 Environnement : Python 3.10+ avec `venv`
@@ -39,7 +39,6 @@ cd inventory-system
 
 python -m venv venv
 source venv/bin/activate        # Pour macOS
-
 venv\Scripts\activate           # Pour Windows
 
 ### 3. Installer les dépendances avec le pip
@@ -59,7 +58,7 @@ python manage.py createsuperuser
 
 http://127.0.0.1:8000/
 
-#Accès et autentification
+#Accès et authentification
 
 Interface de gestion : http://127.0.0.1:8000/admin/
 Page de connexion : /login/
