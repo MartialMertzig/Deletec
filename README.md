@@ -29,7 +29,7 @@ inventory_system/
 
 Instruction pour lancer le projet en local (via `venv`)
 
-# 1. Dupliquer le dépôt
+#1. Dupliquer le dépôt
 
 ```bash
 git clone https://github.com/MartialMertzig/Deletec.git
