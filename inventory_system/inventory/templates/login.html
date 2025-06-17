@@ -1,4 +1,4 @@
-{% load static %}
+{% load static %} <!-- Chargement du script.js-->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -12,15 +12,12 @@
         <div class="connexion">
         {% csrf_token %}
         {% if form.errors %}
-            <p class="error">Nom d’utilisateur ou mot de passe invalide.</p>
+            <p class="error">Identifiant ou mot de passe invalide.</p>
         {% endif %}
-
         <label for="id_username">Identifiant :</label>
         {{ form.username }}
-
         <label for="id_password">Mot de passe :</label>
         {{ form.password }}
-
         <button type="submit">Se connecter</button>
         </div>
     </form>

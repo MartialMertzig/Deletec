@@ -1,7 +1,7 @@
 const form = document.getElementById('request-form'); // Formuler une demande
 const message = document.getElementById('message'); // Message de réponse
-const requestLinesContainer = document.getElementById('request-lines');
-const addLineBtn = document.getElementById('add-line');
+const requestLinesContainer = document.getElementById('request-lines'); // Première ligne
+const addLineBtn = document.getElementById('add-line'); // Ajouter une ligne
 const productList = document.getElementById('product-list'); // Définie la liste des articles
 
 let products = [];
@@ -39,7 +39,7 @@ function addRequestLine() {
         requestLinesContainer.appendChild(titles);
     }
 
-    // Select produit
+    // Selection du produit
     const select = document.createElement('select');
     select.className = 'product-select';
     select.required = true;
@@ -50,14 +50,14 @@ function addRequestLine() {
         select.appendChild(option);
     });
 
-    // Input quantité
+    // Choix de la quantité
     const input = document.createElement('input');
     input.type = 'number';
     input.min = 1;
     input.className = 'quantity-input';
     input.required = true;
 
-    // Bouton de suppression
+    // Bouton pour supprimer la ligne
     const removeBtn = document.createElement('button');
     removeBtn.textContent = '❌';
     removeBtn.type = 'button';
@@ -138,7 +138,7 @@ function fetchUserRequests() {
         });
 }
 
-// Récupérer le CSRF token
+// Récupérer le CSRF token (Obligatoire pour toutes les requêtes POST depuis JS vers Django)
 function getCSRFToken() {
     let cookieValue = null;
     const name = 'csrftoken';

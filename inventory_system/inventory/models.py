@@ -2,8 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-#Modèle des produits
-
+# Modèle des produits
 class Product(models.Model):
     name = models.CharField(max_length=100) #Nom du produit
     description = models.TextField(blank=True) #Description du produit
@@ -14,7 +13,6 @@ class Product(models.Model):
         return self.name 
 
 # Modèle de demande des produits
-
 class ProductRequest(models.Model):
     STATUS_CHOICES = [
         ('pending', 'En attente'),
